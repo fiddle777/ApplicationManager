@@ -8,13 +8,13 @@ namespace ApplicationManager.Core.Enums
 {
     public enum ApplicationStatus
     {
-        Draft,
-        Applied,
-        PendingReply,
-        InterviewScheduled,
-        Interviewed,
-        Offer,
-        Rejected,
-        Ghosted
+        Juodraštis,
+        AplikacijaIšsiųsta,
+        LaukiamaAtsakymo,
+        PokalbisSuplanuotas,
+        PokalbisAtliktas,
+        PasiūlymasGautas,
+        StudentasPasiųstasVelniop,
+        Ignoras
     }
 }

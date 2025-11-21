@@ -32,7 +32,7 @@ namespace ApplicationManager.Core.Services
             var lastContact = app.LastContactDate?.Date;
             return app.Status switch
             {
-                ApplicationStatus.PendingReply
+                ApplicationStatus.LaukiamaAtsakymo
                     when lastContact.HasValue && (today - lastContact.Value).TotalDays >= thresholdDays
                     => true,
                 _ => false
@@ -48,11 +48,11 @@ namespace ApplicationManager.Core.Services
 
             return app.Status switch
             {
-                ApplicationStatus.PendingReply
+                ApplicationStatus.LaukiamaAtsakymo
                     when lastContact.HasValue && (today - lastContact.Value).TotalDays >= staleThreshold
                 => $"Aplikacija be atsakymo: {(today - lastContact.Value).TotalDays:F0} dienų.",
 
-                ApplicationStatus.InterviewScheduled
+                ApplicationStatus.PokalbisSuplanuotas
                     when interviewDate.HasValue &&
                     (interviewDate.Value - today).TotalDays >= 0 &&
                     (interviewDate.Value - today).TotalDays <= upcomingDays

@@ -8,13 +8,13 @@ namespace ApplicationManager.Core.Enums
 {
     public enum ApplicationEventType
     {
-        Created,
-        ApplicationSubmitted,
-        ReplyReceived,
-        InterviewScheduled,
-        InterviewCompleted,
-        OfferReceived,
-        RejectionReceived,
-        Misc
+        Sukurta,
+        AplikacijaIšsiųsta,
+        AtsakymasGautas,
+        PokalbisSuplanuotas,
+        PokalbisBaigtas,
+        PasiūlymasGautas,
+        StudentasPasiųstasVelniop,
+        Kita
     }
 }

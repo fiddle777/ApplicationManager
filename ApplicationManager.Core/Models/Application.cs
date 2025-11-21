@@ -1,6 +1,7 @@
 ﻿using ApplicationManager.Core.Enums;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace ApplicationManager.Core.Models
     {
         public string? ContactInfo { get; set; }
         public int? MonthlyWage { get; set; }
-        public ApplicationStatus Status { get; set; } = ApplicationStatus.Draft;
+        public ApplicationStatus Status { get; set; } = ApplicationStatus.Juodraštis;
         public DateTime CreatedDate { get; init; } = DateTime.UtcNow;
         public DateTime? LastContactDate { get; set; }
         public DateTime? DeadlineDate { get; set; }
@@ -53,8 +54,12 @@ namespace ApplicationManager.Core.Models
                 "G" => $"{CompanyName} - {PositionName} ({Status})",
 
                 "D" => $"[{Id}] {CompanyName} - {PositionName}\n" +
-                       $"Status: {Status}\n" +
-                       $"Deadline: {DeadlineDate?.ToShortDateString() ?? "N/A"}\n",
+                       $"Statusas: {Status}\n" +
+                       $"Kontaktinė informacija: {(string.IsNullOrEmpty(ContactInfo) ? "Nenurodyta" : ContactInfo)}\n" +
+                       $"Mėnesinis atlyginimas: {(MonthlyWage.HasValue ? $"{MonthlyWage}" : "NĖRA")}\n" +
+                       $"Terminas: {DeadlineDate?.ToShortDateString() ?? "NĖRA"}\n" +
+                       $"Paskutinis kontaktas: {LastContactDate?.ToShortDateString() ?? "NĖRA"}\n" +
+                       $"Planuojamas pokalbis: {InterviewDate?.ToShortDateString() ?? "NĖRA"}\n",
                 _ => ToString()
             };
         }

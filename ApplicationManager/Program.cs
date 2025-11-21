@@ -13,7 +13,7 @@ namespace ApplicationManager.App
         {
             var repo = new InMemoryApplicationRepo();
             var manager = new ApplicationService(repo);
-            //SeedDummyData(manager);
+            SeedDummyData(manager);
             RunHelloMenu(manager);
         }
     private static void RunHelloMenu(ApplicationService manager)
@@ -37,8 +37,7 @@ namespace ApplicationManager.App
                 if (!string.IsNullOrWhiteSpace(alert))
                 {
                     anyAlerts = true;
-                    Console.WriteLine($"- [{app.Id}] {app.CompanyName} / {app.PositionName}");
-                    Console.WriteLine($"  >> {alert}");
+                    Console.WriteLine($"- [{app.Id}] {app.CompanyName} / {app.PositionName} >> {alert}");
                 }
             }
             if (!anyAlerts)
@@ -104,10 +103,10 @@ namespace ApplicationManager.App
                         Console.WriteLine("   DĖMESIO!!! " + alert);
                     }
 
-                    var lastEvents = manager.GetLastEvents(app, count: 3);
+                    var lastEvents = manager.GetLastEvents(app, count: 1);
                     foreach (var ev in lastEvents)
                     {
-                        Console.WriteLine($"      [{ev.Timestamp:g}]: {ev.Description}");
+                        Console.WriteLine($"     Paskutinis įvykis: [{ev.Timestamp:g}]: {ev.Description}");
                     }
 
                     Console.WriteLine();
@@ -137,7 +136,6 @@ namespace ApplicationManager.App
                 Console.Clear();
                 Console.WriteLine("=== APLIKACIJOS INFORMACIJA ===");
                 Console.WriteLine(app.ToString("D", null));
-                Console.WriteLine();
                 Console.WriteLine("Įvykių žurnalas:");
                 foreach (var ev in app.Events.OrderBy(e => e.Timestamp))
                 {
@@ -202,9 +200,11 @@ namespace ApplicationManager.App
             }
             Console.WriteLine($"Dabartinis statusas: {app.Status}");
             Console.WriteLine("Galimi statusai:");
+            var i = 0;
             foreach (var status in Enum.GetValues<ApplicationStatus>())
             {
-                Console.WriteLine($" - {status}");
+                Console.WriteLine($" {i}. {status}");
+                i++;
             }
             Console.Write("Naujas statusas (palikite tuščią jei nekeičiate): ");
             var statusInput = Console.ReadLine();
@@ -222,9 +222,11 @@ namespace ApplicationManager.App
             Console.Clear();
             Console.WriteLine("=== NAUJAS ĮVYKIS ===");
             Console.WriteLine("Galimi įvykių tipai:");
+            var i = 0;
             foreach (var type in Enum.GetValues<ApplicationEventType>())
             {
-                Console.WriteLine($" - {type}");
+                Console.WriteLine($"{i}. {type}");
+                i++;
             }
             Console.Write("Įvykio tipas >> ");
             var typeInput = Console.ReadLine();
@@ -269,14 +271,14 @@ namespace ApplicationManager.App
                 Id = nextId,
                 CompanyName = company,
                 PositionName = position,
-                Status = ApplicationStatus.Draft,
+                Status = ApplicationStatus.Juodraštis,
                 CreatedDate = DateTime.UtcNow,
                 MonthlyWage = wage
             };
             app.Events.Add(new ApplicationEvent
             {
                 Timestamp = DateTime.UtcNow,
-                EventType = ApplicationEventType.Created,
+                EventType = ApplicationEventType.Sukurta,
                 Description = "Aplikacija sukurta."
             });
             manager.AddApplication(app);
@@ -299,14 +301,14 @@ namespace ApplicationManager.App
                 Id = 1,
                 CompanyName = "ACME Corp",
                 PositionName = "Support Engineer",
-                Status = ApplicationStatus.PendingReply,
+                Status = ApplicationStatus.LaukiamaAtsakymo,
                 CreatedDate = DateTime.UtcNow.AddDays(-10),
                 LastContactDate = DateTime.UtcNow.AddDays(-7),
             };
             app1.Events.Add(new ApplicationEvent
             {
                 Timestamp = DateTime.UtcNow.AddDays(-10),
-                EventType = ApplicationEventType.Created,
+                EventType = ApplicationEventType.Sukurta,
                 Description = "Sukurta aplikacija."
             });
 
@@ -315,7 +317,7 @@ namespace ApplicationManager.App
                 Id = 2,
                 CompanyName = "MegaSoft",
                 PositionName = "Intern Developer",
-                Status = ApplicationStatus.InterviewScheduled,
+                Status = ApplicationStatus.PokalbisSuplanuotas,
                 CreatedDate = DateTime.UtcNow.AddDays(-5),
                 LastContactDate = DateTime.UtcNow.AddDays(-3),
                 InterviewDate = DateTime.UtcNow.AddDays(2),
@@ -323,13 +325,13 @@ namespace ApplicationManager.App
             app2.Events.Add(new ApplicationEvent
             {
                 Timestamp = DateTime.UtcNow.AddDays(-5),
-                EventType = ApplicationEventType.Created,
+                EventType = ApplicationEventType.Sukurta,
                 Description = "Sukurta aplikacija."
             });
             app2.Events.Add(new ApplicationEvent
             {
                 Timestamp = DateTime.UtcNow.AddDays(-3),
-                EventType = ApplicationEventType.Misc,
+                EventType = ApplicationEventType.Kita,
                 Description = "Suplanuotas pokalbis."
             });
 
