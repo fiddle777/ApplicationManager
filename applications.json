@@ -1,45 +1,277 @@
 [
   {
-    "ContactInfo": null,
-    "MonthlyWage": null,
+    "ContactInfo": "hr@acme-corp.com",
+    "MonthlyWage": 2300,
     "Status": 2,
-    "CreatedDate": "2025-11-11T20:59:18.4621386Z",
-    "LastContactDate": "2025-11-14T20:59:18.4621866Z",
-    "DeadlineDate": null,
+    "CreatedDate": "2025-10-25T09:15:00Z",
+    "LastContactDate": "2025-10-27T14:30:00Z",
+    "DeadlineDate": "2025-11-05T23:59:00Z",
     "InterviewDate": null,
     "Events": [
       {
-        "Timestamp": "2025-11-11T20:59:18.4622977Z",
-        "EventType": 0,
-        "Description": "Sukurta aplikacija."
-      }
-    ],
-    "Id": 1,
-    "CompanyName": "ACME Corp",
-    "PositionName": "Support Engineer"
-  },
-  {
-    "ContactInfo": null,
-    "MonthlyWage": null,
-    "Status": 3,
-    "CreatedDate": "2025-11-16T20:59:18.4623854Z",
-    "LastContactDate": "2025-11-18T20:59:18.4623855Z",
-    "DeadlineDate": null,
-    "InterviewDate": "2025-11-23T20:59:18.4623856Z",
-    "Events": [
-      {
-        "Timestamp": "2025-11-16T20:59:18.4624365Z",
+        "Timestamp": "2025-10-25T09:15:00Z",
         "EventType": 0,
         "Description": "Sukurta aplikacija."
       },
       {
-        "Timestamp": "2025-11-18T20:59:18.4624374Z",
-        "EventType": 7,
-        "Description": "Suplanuotas pokalbis."
+        "Timestamp": "2025-10-25T10:00:00Z",
+        "EventType": 1,
+        "Description": "I\u0161si\u0173stas CV ir motyvacinis lai\u0161kas."
+      },
+      {
+        "Timestamp": "2025-10-27T14:30:00Z",
+        "EventType": 2,
+        "Description": "Darbdavys patvirtino aplikacijos gavim\u0105."
       }
     ],
+    "Flags": 4,
+    "Id": 1,
+    "CompanyName": "ACME Corp",
+    "PositionName": "Junior Support Engineer"
+  },
+  {
+    "ContactInfo": "talents@megasoft.com",
+    "MonthlyWage": 1600,
+    "Status": 3,
+    "CreatedDate": "2025-11-12T10:00:00Z",
+    "LastContactDate": "2025-11-18T16:30:00Z",
+    "DeadlineDate": null,
+    "InterviewDate": "2025-11-25T09:00:00Z",
+    "Events": [
+      {
+        "Timestamp": "2025-11-12T10:00:00Z",
+        "EventType": 0,
+        "Description": "Sukurta aplikacija."
+      },
+      {
+        "Timestamp": "2025-11-13T09:45:00Z",
+        "EventType": 1,
+        "Description": "Pateikta parai\u0161ka per karjeros portal\u0105."
+      },
+      {
+        "Timestamp": "2025-11-15T16:00:00Z",
+        "EventType": 2,
+        "Description": "Gautas patvirtinimas ir pasi\u016Blyta pokalbio data."
+      },
+      {
+        "Timestamp": "2025-11-18T16:30:00Z",
+        "EventType": 7,
+        "Description": "Patvirtintas pokalbio laikas."
+      }
+    ],
+    "Flags": 5,
     "Id": 2,
     "CompanyName": "MegaSoft",
     "PositionName": "Intern Developer"
+  },
+  {
+    "ContactInfo": "careers@baltic-fintech.lt",
+    "MonthlyWage": 2700,
+    "Status": 2,
+    "CreatedDate": "2025-10-10T08:00:00Z",
+    "LastContactDate": "2025-10-20T08:30:00Z",
+    "DeadlineDate": "2025-10-15T23:59:00Z",
+    "InterviewDate": null,
+    "Events": [
+      {
+        "Timestamp": "2025-10-10T08:00:00Z",
+        "EventType": 0,
+        "Description": "Sukurta aplikacija."
+      },
+      {
+        "Timestamp": "2025-10-11T09:30:00Z",
+        "EventType": 1,
+        "Description": "I\u0161si\u0173stas CV el. pa\u0161tu."
+      },
+      {
+        "Timestamp": "2025-10-12T13:00:00Z",
+        "EventType": 2,
+        "Description": "Gautas automatinis atsakymas, kad parai\u0161ka gauta."
+      },
+      {
+        "Timestamp": "2025-10-20T08:30:00Z",
+        "EventType": 4,
+        "Description": "I\u0161si\u0173stas priminimo lai\u0161kas d\u0117l atsakymo."
+      },
+      {
+        "Timestamp": "2025-11-21T22:53:03.8411314Z",
+        "EventType": 7,
+        "Description": "testy test, the testiest of them all"
+      },
+      {
+        "Timestamp": "2025-11-21T22:53:27.5379075Z",
+        "EventType": 4,
+        "Description": "feels like something somewhere is broken in this code"
+      }
+    ],
+    "Flags": 6,
+    "Id": 3,
+    "CompanyName": "Baltic FinTech",
+    "PositionName": "C# Developer (Junior)"
+  },
+  {
+    "ContactInfo": "jobs@nordic-cloud.io",
+    "MonthlyWage": 3200,
+    "Status": 1,
+    "CreatedDate": "2025-11-05T11:20:00Z",
+    "LastContactDate": "2025-11-06T09:10:00Z",
+    "DeadlineDate": "2025-11-30T23:59:00Z",
+    "InterviewDate": null,
+    "Events": [
+      {
+        "Timestamp": "2025-11-05T11:20:00Z",
+        "EventType": 0,
+        "Description": "Sukurta aplikacija."
+      },
+      {
+        "Timestamp": "2025-11-05T11:45:00Z",
+        "EventType": 1,
+        "Description": "Pateikta parai\u0161ka per \u012Fmon\u0117s karjeros puslap\u012F."
+      },
+      {
+        "Timestamp": "2025-11-06T09:10:00Z",
+        "EventType": 2,
+        "Description": "Gautas patvirtinimo lai\u0161kas i\u0161 HR."
+      }
+    ],
+    "Flags": 1,
+    "Id": 4,
+    "CompanyName": "Nordic Cloud",
+    "PositionName": "DevOps Trainee"
+  },
+  {
+    "ContactInfo": "people@vilnius-startup.lt",
+    "MonthlyWage": 1900,
+    "Status": 4,
+    "CreatedDate": "2025-09-15T10:30:00Z",
+    "LastContactDate": "2025-09-27T12:00:00Z",
+    "DeadlineDate": null,
+    "InterviewDate": "2025-09-25T09:00:00Z",
+    "Events": [
+      {
+        "Timestamp": "2025-09-15T10:30:00Z",
+        "EventType": 0,
+        "Description": "Sukurta aplikacija."
+      },
+      {
+        "Timestamp": "2025-09-18T15:10:00Z",
+        "EventType": 7,
+        "Description": "Suplanuotas gyvas pokalbis biure."
+      },
+      {
+        "Timestamp": "2025-09-25T09:00:00Z",
+        "EventType": 7,
+        "Description": "\u012Evyko pokalbis su tech vadovu."
+      },
+      {
+        "Timestamp": "2025-09-27T12:00:00Z",
+        "EventType": 3,
+        "Description": "Gautas atsakymas: atmesta d\u0117l didel\u0117s konkurencijos."
+      }
+    ],
+    "Flags": 0,
+    "Id": 5,
+    "CompanyName": "Vilnius Startup Hub",
+    "PositionName": ".NET Trainee"
+  },
+  {
+    "ContactInfo": "recruitment@eurodata.eu",
+    "MonthlyWage": 2900,
+    "Status": 5,
+    "CreatedDate": "2025-10-01T09:00:00Z",
+    "LastContactDate": "2025-10-20T17:00:00Z",
+    "DeadlineDate": null,
+    "InterviewDate": "2025-10-15T14:00:00Z",
+    "Events": [
+      {
+        "Timestamp": "2025-10-01T09:00:00Z",
+        "EventType": 0,
+        "Description": "Sukurta aplikacija."
+      },
+      {
+        "Timestamp": "2025-10-03T10:15:00Z",
+        "EventType": 2,
+        "Description": "Gautas kvietimas \u012F technin\u012F pokalb\u012F."
+      },
+      {
+        "Timestamp": "2025-10-15T14:00:00Z",
+        "EventType": 7,
+        "Description": "\u012Evyko techninis pokalbis."
+      },
+      {
+        "Timestamp": "2025-10-20T17:00:00Z",
+        "EventType": 5,
+        "Description": "Gautas darbo pasi\u016Blymas."
+      }
+    ],
+    "Flags": 1,
+    "Id": 6,
+    "CompanyName": "EuroData Solutions",
+    "PositionName": "Junior .NET Engineer"
+  },
+  {
+    "ContactInfo": "hello@remote-labs.dev",
+    "MonthlyWage": 2500,
+    "Status": 2,
+    "CreatedDate": "2025-11-01T08:45:00Z",
+    "LastContactDate": "2025-11-10T09:30:00Z",
+    "DeadlineDate": "2025-11-10T23:59:00Z",
+    "InterviewDate": null,
+    "Events": [
+      {
+        "Timestamp": "2025-11-01T08:45:00Z",
+        "EventType": 0,
+        "Description": "Sukurta aplikacija."
+      },
+      {
+        "Timestamp": "2025-11-01T09:10:00Z",
+        "EventType": 1,
+        "Description": "Pateikta parai\u0161ka per LinkedIn."
+      },
+      {
+        "Timestamp": "2025-11-02T09:30:00Z",
+        "EventType": 2,
+        "Description": "Gautas automatinis atsakymas apie parai\u0161kos gavim\u0105."
+      },
+      {
+        "Timestamp": "2025-11-10T09:30:00Z",
+        "EventType": 4,
+        "Description": "I\u0161si\u0173stas paskutinis priminimas prie\u0161 termino pabaig\u0105."
+      }
+    ],
+    "Flags": 3,
+    "Id": 7,
+    "CompanyName": "Remote Labs",
+    "PositionName": "Remote C# Developer (Junior)"
+  },
+  {
+    "ContactInfo": "info@local-it.lt",
+    "MonthlyWage": 1800,
+    "Status": 1,
+    "CreatedDate": "2025-11-18T18:00:00Z",
+    "LastContactDate": "2025-11-19T09:15:00Z",
+    "DeadlineDate": "2025-12-01T23:59:00Z",
+    "InterviewDate": null,
+    "Events": [
+      {
+        "Timestamp": "2025-11-18T18:00:00Z",
+        "EventType": 0,
+        "Description": "Aplikacija sukurta juodra\u0161\u010Dio stadijoje."
+      },
+      {
+        "Timestamp": "2025-11-18T18:30:00Z",
+        "EventType": 1,
+        "Description": "Juodra\u0161tis u\u017Epildytas ir per\u017Ei\u016Br\u0117tas."
+      },
+      {
+        "Timestamp": "2025-11-19T09:15:00Z",
+        "EventType": 1,
+        "Description": "Parai\u0161ka i\u0161si\u0173sta per \u012Fmon\u0117s karjeros form\u0105."
+      }
+    ],
+    "Flags": 2,
+    "Id": 8,
+    "CompanyName": "Local IT Services",
+    "PositionName": "IT Support Specialist (Junior)"
   }
 ]

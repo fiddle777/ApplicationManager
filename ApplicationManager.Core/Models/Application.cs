@@ -21,7 +21,7 @@ namespace ApplicationManager.Core.Models
         public DateTime? LastContactDate { get; set; }
         public DateTime? DeadlineDate { get; set; }
         public DateTime? InterviewDate { get; set; }
-        public List<ApplicationEvent> Events { get; } = new();
+        public List<ApplicationEvent> Events { get; set; } = new();
         public ApplicationFlags Flags { get; set; } = ApplicationFlags.None;
 
         //REIKALAVIMAS: Teisingai atlikote implementaciją IEquatable<T>(0.5 t.)

@@ -16,7 +16,7 @@ namespace ApplicationManager.App
             var dataPath = Path.Combine(Directory.GetParent(AppContext.BaseDirectory)!.Parent!.Parent!.Parent!.Parent!.FullName, "applications.json");
             var repo = new JsonFileApplicationRepo(dataPath);
             var manager = new ApplicationService(repo);
-            SeedDummyData(manager);
+            //SeedDummyData(manager);
             RunHelloMenu(manager);
         }
     private static void RunHelloMenu(ApplicationService manager)
@@ -341,7 +341,6 @@ namespace ApplicationManager.App
                 Description = "Suplanuotas pokalbis."
             });
 
-            // params-based add (keeps your 'params' requirement)
             manager.AddApplication(app1, app2);
         }
     }
