@@ -42,7 +42,7 @@ namespace ApplicationManager.Core.Services
         {
             var today = DateTime.UtcNow.Date;
             var lastContact = app.LastContactDate?.Date;
-            var InterviewDate = app.InterviewDate?.Date;
+            var interviewDate = app.InterviewDate?.Date;
             var staleThreshold = Config.GetStaleDaysThreshold();
             var upcomingDays = Config.UpcomingInterviewDays;
 
@@ -50,13 +50,13 @@ namespace ApplicationManager.Core.Services
             {
                 ApplicationStatus.PendingReply
                     when lastContact.HasValue && (today - lastContact.Value).TotalDays >= staleThreshold
-                => "Aplikacija be atsakymo(dienos): " + staleThreshold,
+                => $"Aplikacija be atsakymo: {(today - lastContact.Value).TotalDays:F0} dienų.",
 
                 ApplicationStatus.InterviewScheduled
-                    when InterviewDate.HasValue &&
-                    (InterviewDate.Value - today).TotalDays >= 0 &&
-                    (InterviewDate.Value - today).TotalDays <= upcomingDays
-                => "Artėjantis pokalbis: " + InterviewDate,
+                    when interviewDate.HasValue &&
+                    (interviewDate.Value - today).TotalDays >= 0 &&
+                    (interviewDate.Value - today).TotalDays <= upcomingDays
+                => $"Artėjantis pokalbis: {interviewDate:yyyy-MM-dd}.",
 
                 _ => null
             };
@@ -99,6 +99,13 @@ namespace ApplicationManager.Core.Services
                 return $"{company} - {position} ({status})";
             }
             return obj?.ToString() ?? "null";
+        }
+        public void UpdateApplication(Application application)
+        {
+            if (application is null)
+                throw new ArgumentNullException(nameof(application));
+
+            _repo.Update(application);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace ApplicationManager.Core.Models
         public string? ContactInfo { get; set; }
         public int? MonthlyWage { get; set; }
         public ApplicationStatus Status { get; set; } = ApplicationStatus.Draft;
-        public DateTime createdDate { get; init; } = DateTime.UtcNow;
+        public DateTime CreatedDate { get; init; } = DateTime.UtcNow;
         public DateTime? LastContactDate { get; set; }
         public DateTime? DeadlineDate { get; set; }
         public DateTime? InterviewDate { get; set; }
@@ -34,6 +34,8 @@ namespace ApplicationManager.Core.Models
 
         public int CompareTo(Application? other)
         {
+            if (other is null) return 1;
+
             int statusCompare = Status.CompareTo(other?.Status);
             if (statusCompare != 0) return statusCompare;
 

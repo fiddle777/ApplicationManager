@@ -7,7 +7,7 @@ using ApplicationManager.Core.Models;
 
 namespace ApplicationManager.Core.Repos
 {
-    public sealed class InMemoryAllocationRepo : IApplicationRepo
+    public sealed class InMemoryApplicationRepo : IApplicationRepo
     {
         private readonly List<Application> _applications = new();
         public IReadOnlyCollection<Application> GetAll() => _applications.AsReadOnly();
