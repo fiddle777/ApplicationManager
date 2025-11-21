@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ApplicationManager.Core.Models
 {
+    // REIKALAVIMAS: Naudojate abstrakčią klasę (0.5 t.)
+    // ApplicationBase yra abstrakti bazinė klasė su bendrais laukais (Id,
+    // CompanyName, PositionName), iš kurios paveldi Application.
     public abstract class ApplicationBase
     {
         public int Id { get; set; }

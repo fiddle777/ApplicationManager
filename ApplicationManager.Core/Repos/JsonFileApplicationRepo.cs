@@ -8,9 +8,14 @@ using ApplicationManager.Core.Models;
 
 namespace ApplicationManager.Core.Repos
 {
+    // REIKALAVIMAS: Naudojate uždarytą ('sealed') arba dalinę ('partial') klasę (0.5 t.)
+    // JsonFileApplicationRepo pažymėta kaip sealed, kad jos nebūtų galima paveldėti
+    // ir kad ji veiktų kaip galutinė konkreti repozitorijos realizacija.
     public sealed class JsonFileApplicationRepo : IApplicationRepo
     {
         private readonly string _filePath;
+        // REIKALAVIMAS: Naudojamos duomenų struktūros iš System.Collections arba System.Collections.Generic (1 t.)
+        // Čia naudojamas List<Application> aplikacijų sąrašui saugoti repozitorijoje.
         private readonly List<Application> _applications = new();
         private static readonly JsonSerializerOptions _jsonOptions = new()
         {

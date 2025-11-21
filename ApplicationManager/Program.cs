@@ -4,7 +4,9 @@ using ApplicationManager.Core.Enums;
 using ApplicationManager.Core.Models;
 using ApplicationManager.Core.Repos;
 using ApplicationManager.Core.Services;
-
+// REIKALAVIMAS: Projektas sudarytas iš daugiau nei vieno modulio (assembly) (1 t.)
+// Solution turi bent du atskirus assembly: ApplicationManager.Core (logika)
+// ir ApplicationManager.App (konsolinė aplikacija).
 namespace ApplicationManager.App
 {
     internal class Program
@@ -104,7 +106,7 @@ namespace ApplicationManager.App
                         Console.WriteLine("   DĖMESIO!!! " + alert);
                     }
 
-                    var lastEvents = manager.GetLastEvents(app, count: 1);
+                    var lastEvents = manager.GetLastEvents(app, count: 2);
                     foreach (var ev in lastEvents)
                     {
                         Console.WriteLine($"     Paskutinis įvykis: [{ev.Timestamp:g}]: {ev.Description}");
@@ -190,6 +192,9 @@ namespace ApplicationManager.App
             var wageInput = Console.ReadLine();
             if (!string.IsNullOrWhiteSpace(wageInput))
             {
+                // REIKALAVIMAS: Realizuota inicializacija naudojant 'out' argumentus (1 t.)
+                // TryParseMonthlyWage grąžina bool ir inicializuoja 'out int? wage'
+                // parametrą panašiai kaip standartiniai TryParse metodai.
                 if (manager.TryParseMonthlyWage(wageInput, out int? wage))
                 {
                     app.MonthlyWage = wage;
