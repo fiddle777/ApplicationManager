@@ -1,0 +1,45 @@
+[
+  {
+    "ContactInfo": null,
+    "MonthlyWage": null,
+    "Status": 2,
+    "CreatedDate": "2025-11-11T20:59:18.4621386Z",
+    "LastContactDate": "2025-11-14T20:59:18.4621866Z",
+    "DeadlineDate": null,
+    "InterviewDate": null,
+    "Events": [
+      {
+        "Timestamp": "2025-11-11T20:59:18.4622977Z",
+        "EventType": 0,
+        "Description": "Sukurta aplikacija."
+      }
+    ],
+    "Id": 1,
+    "CompanyName": "ACME Corp",
+    "PositionName": "Support Engineer"
+  },
+  {
+    "ContactInfo": null,
+    "MonthlyWage": null,
+    "Status": 3,
+    "CreatedDate": "2025-11-16T20:59:18.4623854Z",
+    "LastContactDate": "2025-11-18T20:59:18.4623855Z",
+    "DeadlineDate": null,
+    "InterviewDate": "2025-11-23T20:59:18.4623856Z",
+    "Events": [
+      {
+        "Timestamp": "2025-11-16T20:59:18.4624365Z",
+        "EventType": 0,
+        "Description": "Sukurta aplikacija."
+      },
+      {
+        "Timestamp": "2025-11-18T20:59:18.4624374Z",
+        "EventType": 7,
+        "Description": "Suplanuotas pokalbis."
+      }
+    ],
+    "Id": 2,
+    "CompanyName": "MegaSoft",
+    "PositionName": "Intern Developer"
+  }
+]

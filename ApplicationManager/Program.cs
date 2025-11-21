@@ -11,7 +11,8 @@ namespace ApplicationManager.App
     {
         static void Main(string[] args)
         {
-            var repo = new InMemoryApplicationRepo();
+            var dataPath = Path.Combine(Directory.GetParent(AppContext.BaseDirectory)!.Parent!.Parent!.Parent!.Parent!.FullName, "applications.json");
+            var repo = new JsonFileApplicationRepo(dataPath);
             var manager = new ApplicationService(repo);
             SeedDummyData(manager);
             RunHelloMenu(manager);
