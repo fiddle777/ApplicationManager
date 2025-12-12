@@ -4,22 +4,44 @@ using ApplicationManager.Core.Enums;
 using ApplicationManager.Core.Models;
 using ApplicationManager.Core.Repos;
 using ApplicationManager.Core.Services;
-// REIKALAVIMAS: Projektas sudarytas iš daugiau nei vieno modulio (assembly) (1 t.)
-// Solution turi bent du atskirus assembly: ApplicationManager.Core (logika)
-// ir ApplicationManager.App (konsolinė aplikacija).
+using ApplicationManager.Core.Exceptions;
+using ApplicationManager.Core.Extensions;
 namespace ApplicationManager.App
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            var dataPath = Path.Combine(Directory.GetParent(AppContext.BaseDirectory)!.Parent!.Parent!.Parent!.Parent!.FullName, "applications.json");
-            var repo = new JsonFileApplicationRepo(dataPath);
-            var manager = new ApplicationService(repo);
-            //SeedDummyData(manager);
-            RunHelloMenu(manager);
+            try
+            {
+                var dataPath = Path.Combine(Directory.GetParent(AppContext.BaseDirectory)!.Parent!.Parent!.Parent!.Parent!.FullName, "applications.json");
+                var repo = new JsonFileApplicationRepo(dataPath);
+                var manager = new ApplicationService(repo);
+
+                // REIKALAVIMAS: Naudojate įvykius savo projekte (1 t.)
+                manager.ApplicationChanged += (sender, e) =>
+                {
+                    Console.WriteLine($"[EVENT] {e.Action}: id={e.Application.Id}");
+                };
+
+                //SeedDummyData(manager);
+                RunHelloMenu(manager);
+            }
+            catch (ApplicationRepositoryException ex)
+            {
+                // REIKALAVIMAS: Yra blokai 'try' 'catch' vietose, kur gali įvykti klaida (1 t.)
+                Console.WriteLine("Nepavyko paleisti programos (duomenų klaida). Detalės:");
+                Console.WriteLine(ex.Message);
+                if (ex.InnerException is not null)
+                {
+                    Console.WriteLine("Vidinė klaida: " + ex.InnerException.Message);
+                }
+                Console.WriteLine();
+                Console.WriteLine("Paspauskite bet kurį klavišą išeiti...");
+                Console.ReadKey(true);
+            }
         }
-    private static void RunHelloMenu(ApplicationService manager)
+        private static void RunHelloMenu(ApplicationService manager)
         {
             Console.Clear();
             Console.WriteLine("Sveiki sugrįžę!");
@@ -47,6 +69,12 @@ namespace ApplicationManager.App
             {
                 Console.WriteLine("Šiuo metu nėra jokių įspėjimų.");
             }
+            // REIKALAVIMAS: Sukurtas savas bendrasis (generic) plėtimo metodas (1 t.)
+            // Panaudojame WithFlag<T> (extension) parodyti, kad generic extension veikia.
+            var urgentCount = apps.WithFlag(a => (a.Flags & ApplicationFlags.Urgent) == ApplicationFlags.Urgent).Count();
+            Console.WriteLine();
+            Console.WriteLine($"Skubios (Urgent) aplikacijos: {urgentCount}");
+
             Console.WriteLine();
             WaitForKey();
             RunMenu(manager);
@@ -87,7 +115,12 @@ namespace ApplicationManager.App
             {
                 Console.Clear();
                 Console.WriteLine("=== VISOS APLIKACIJOS ===");
-                var apps = manager.GetAllSorted().ToList();
+
+                // REIKALAVIMAS: Teisingai atlikote implementaciją IEnumerable<T> / IEnumerator<T>
+                // Naudojame savo ApplicationCollection su custom enumeratorium.
+                var collection = manager.GetAllAsCollection();
+                var apps = collection.YieldAll().ToList();
+
                 if (!apps.Any())
                 {
                     Console.WriteLine("Nėra aplikacijų.");
@@ -109,7 +142,10 @@ namespace ApplicationManager.App
                     var lastEvents = manager.GetLastEvents(app, count: 2);
                     foreach (var ev in lastEvents)
                     {
-                        Console.WriteLine($"     Paskutinis įvykis: [{ev.Timestamp:g}]: {ev.Description}");
+                        // REIKALAVIMAS: Sukurtas praplėtimo dekonstruktorius (1 t.)
+                        // Deconstruct extension iš ApplicationEventExtensions.
+                        var (time, type, desc) = ev;
+                        Console.WriteLine($"     Paskutinis įvykis: [{time:g}] ({type}): {desc}");
                     }
 
                     Console.WriteLine();
@@ -173,6 +209,11 @@ namespace ApplicationManager.App
             Console.WriteLine("=== APLIKACIJOS REDAGAVIMAS ===");
             Console.WriteLine("Palikite tuščią, jei nenorite keisti reikšmės.");
             Console.WriteLine();
+
+            // REIKALAVIMAS: Teisingai įgyvendintas ICloneable (1 t.)
+            // Susikuriame atsarginę kopiją prieš redagavimą.
+            var backup = (Core.Models.Application)app.Clone();
+
             Console.WriteLine($"Dabartinė įmonė: {app.CompanyName}");
             Console.Write("Nauja įmonė: ");
             var newCompany = Console.ReadLine();
@@ -192,9 +233,6 @@ namespace ApplicationManager.App
             var wageInput = Console.ReadLine();
             if (!string.IsNullOrWhiteSpace(wageInput))
             {
-                // REIKALAVIMAS: Realizuota inicializacija naudojant 'out' argumentus (1 t.)
-                // TryParseMonthlyWage grąžina bool ir inicializuoja 'out int? wage'
-                // parametrą panašiai kaip standartiniai TryParse metodai.
                 if (manager.TryParseMonthlyWage(wageInput, out int? wage))
                 {
                     app.MonthlyWage = wage;
@@ -219,8 +257,28 @@ namespace ApplicationManager.App
             {
                 app.Status = newStatus;
             }
-            manager.UpdateApplication(app);
-            Console.WriteLine("Aplikacija sėkmingai atnaujinta.");
+
+            try
+            {
+                manager.UpdateApplication(app);
+                Console.WriteLine("Aplikacija sėkmingai atnaujinta.");
+            }
+            catch (Exception)
+            {
+                app.CompanyName = backup.CompanyName;
+                app.PositionName = backup.PositionName;
+                app.ContactInfo = backup.ContactInfo;
+                app.MonthlyWage = backup.MonthlyWage;
+                app.Status = backup.Status;
+                app.LastContactDate = backup.LastContactDate;
+                app.DeadlineDate = backup.DeadlineDate;
+                app.InterviewDate = backup.InterviewDate;
+                app.Flags = backup.Flags;
+                app.Events = backup.Events;
+
+                Console.WriteLine("Įvyko klaida atnaujinant. Pakeitimai atšaukti.");
+            }
+
             WaitForKey();
         }
         private static void AddEventToApplication(ApplicationService manager, Core.Models.Application app)

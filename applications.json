@@ -237,6 +237,11 @@
         "Timestamp": "2025-11-10T09:30:00Z",
         "EventType": 4,
         "Description": "I\u0161si\u0173stas paskutinis priminimas prie\u0161 termino pabaig\u0105."
+      },
+      {
+        "Timestamp": "2025-12-12T15:49:29.6719701Z",
+        "EventType": 7,
+        "Description": "paleido vidurius"
       }
     ],
     "Flags": 3,
@@ -273,5 +278,25 @@
     "Id": 8,
     "CompanyName": "Local IT Services",
     "PositionName": "IT Support Specialist (Junior)"
+  },
+  {
+    "ContactInfo": null,
+    "MonthlyWage": 690,
+    "Status": 0,
+    "CreatedDate": "2025-12-12T15:49:52.9858213Z",
+    "LastContactDate": null,
+    "DeadlineDate": null,
+    "InterviewDate": null,
+    "Events": [
+      {
+        "Timestamp": "2025-12-12T15:49:52.9858225Z",
+        "EventType": 0,
+        "Description": "Aplikacija sukurta."
+      }
+    ],
+    "Flags": 0,
+    "Id": 9,
+    "CompanyName": "testing",
+    "PositionName": "testuotojas"
   }
 ]

@@ -12,7 +12,8 @@ namespace ApplicationManager.Core.Models
     public class Application : ApplicationBase,
         IComparable<Application>,
         IEquatable<Application>,
-        IFormattable
+        IFormattable,
+        ICloneable
     {
         public string? ContactInfo { get; set; }
         public int? MonthlyWage { get; set; }
@@ -24,9 +25,6 @@ namespace ApplicationManager.Core.Models
         public List<ApplicationEvent> Events { get; set; } = new();
         public ApplicationFlags Flags { get; set; } = ApplicationFlags.None;
 
-        //REIKALAVIMAS: Teisingai atlikote implementaciją IEquatable<T>(0.5 t.)
-        // Aplikacijos laikomos lygiomis, jei sutampa jų Id, todėl veikia lyginimas,
-        // Contains ir kitos kolekcijų operacijos.
         public bool Equals(Application? other)
         {
             if (other is null) return false;
@@ -35,15 +33,9 @@ namespace ApplicationManager.Core.Models
         }
         public override bool Equals(object? obj) => Equals(obj as Application);
         public override int GetHashCode() => Id.GetHashCode();
-        // REIKALAVIMAS: Naudojamas operatorių perkrovimas (0.5 t)
-        // Perkrauti operatoriai == ir != naudoja IEquatable<T> realizaciją ir
-        // lygina Application objektus pagal jų Id.
         public static bool operator ==(Application? left, Application? right) => Equals(left, right);
         public static bool operator !=(Application? left, Application? right) => !Equals(left, right);
 
-        // REIKALAVIMAS: Teisingai atlikote implementaciją IComparable<T> (0.5 t.)
-        // Application objektai lyginami pagal Status, DeadlineDate ir CompanyName,
-        // todėl juos galima rūšiuoti naudojant LINQ (pvz. GetAllSorted()).
         public int CompareTo(Application? other)
         {
             if (other is null) return 1;
@@ -57,9 +49,6 @@ namespace ApplicationManager.Core.Models
             return string.Compare(CompanyName, other.CompanyName, StringComparison.CurrentCultureIgnoreCase);
         }
 
-        // Reikalavimas: Teisingai atlikote implementaciją IFormattable (1 t.)
-        // ToString("G") grąžina trumpą suvestinę, ToString("D") – detalią aplikacijos
-        // informaciją (statusas, atlyginimas, terminai ir t.t.), naudojama UI sluoksnyje.
         public string ToString(string? format, IFormatProvider? formatProvider)
         {
             format ??= "G";
@@ -72,23 +61,26 @@ namespace ApplicationManager.Core.Models
                        $"Kontaktinė informacija: {(string.IsNullOrEmpty(ContactInfo) ? "Nenurodyta" : ContactInfo)}\n" +
                        $"Mėnesinis atlyginimas: {(MonthlyWage.HasValue ? $"{MonthlyWage}" : "NĖRA")}\n" +
                        $"Terminas: {DeadlineDate?.ToShortDateString() ?? "NĖRA"}\n" +
-                       // REIKALAVIMAS: Naudojami operatoriai ?. ?[] ?? arba ??= (0.5 t.)
-                       // Naudojamas null-conditional (?.) ir null-coalescing (??) operatorius, kad
-                       // patogiai apdoroti galimai null reikšmes ir grąžinti numatytas reikšmes.
                        $"Paskutinis kontaktas: {LastContactDate?.ToShortDateString() ?? "NĖRA"}\n" +
                        $"Planuojamas pokalbis: {InterviewDate?.ToShortDateString() ?? "NĖRA"}\n",
                 _ => ToString()
             };
         }
         public override string ToString() => ToString("G", null);
-        // REIKALAVIMAS: Naudojamas dekonstruktorius (0.5 t.)
-        // Deconstruct leidžia Application išskaidyti į (companyName, positionName, status)
-        // ir naudoti deconstruction sintaksę kitose vietose (pvz. DescribeObject).
         public void Deconstruct(out string companyName, out string positionName, out ApplicationStatus status)
         {
             companyName = CompanyName;
             positionName = PositionName;
             status = Status;
+        }
+
+        // REIKALAVIMAS: Teisingai įgyvendintas ICloneable (1 t.)
+        // Atliekama "deep copy" – kopijuojami ir Events elementai.
+        public object Clone()
+        {
+            var clone = (Application)MemberwiseClone();
+            clone.Events = Events.Select(e => (ApplicationEvent)e.Clone()).ToList();
+            return clone;
         }
     }
 }

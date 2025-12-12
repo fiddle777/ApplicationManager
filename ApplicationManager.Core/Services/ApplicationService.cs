@@ -7,12 +7,19 @@ using ApplicationManager.Core.Models;
 using ApplicationManager.Core.Repos;
 using ApplicationManager.Core.Enums;
 using ApplicationManager.Core;
+using ApplicationManager.Core.Collections;
+using ApplicationManager.Core.Exceptions;
 
 namespace ApplicationManager.Core.Services
 {
     public class ApplicationService
     {
         private readonly IApplicationRepo _repo;
+
+        // REIKALAVIMAS: Naudojate įvykius savo projekte (1 t.)
+        // Įvykis iškviečiamas kai aplikacija pridedama / atnaujinama / pašalinama.
+        public event EventHandler<ApplicationChangedEventArgs>? ApplicationChanged;
+
         public ApplicationService(IApplicationRepo repo)
         {
             _repo = repo;
@@ -21,6 +28,12 @@ namespace ApplicationManager.Core.Services
         {
             return _repo.GetAll().OrderBy(a => a).ToArray();
         }
+
+        public ApplicationCollection<Application> GetAllAsCollection()
+        {
+            return new ApplicationCollection<Application>(_repo.GetAll());
+        }
+
         public IEnumerable<Application> GetStaleApplications()
         {
             var thresholdDays = Config.GetStaleDaysThreshold();
@@ -35,9 +48,6 @@ namespace ApplicationManager.Core.Services
             }
             return stale;
         }
-        // REIKALAVIMAS: Naudojate 'switch' su 'when' raktažodžiu (0.5 t.)
-        // 'switch' su 'when' panaudotas papildomoms sąlygoms aprašyti (pvz. "stale"
-        // aplikacijoms(aplikacijoms kuriose ilgą laiką negautas atsakymas) ir artėjantiems pokalbiams pagal statusą ir datas).
         private static bool IsStale(Application app, DateTime today, int thresholdDays)
         {
             var lastContact = app.LastContactDate?.Date;
@@ -72,17 +82,8 @@ namespace ApplicationManager.Core.Services
                 _ => null
             };
         }
-        // REIKALAVIMAS: Naudojate 'Range' tipą (0.5 t.)
-        // Naudojamas indeksatorius su Range ([^count..]) grąžinti paskutinius N įvykių
-        // elementų iš masyvo.
 
-        // REIKALAVIMAS: Naudojami numatyti ir vardiniai argumentai (0.5 t.)
-        // Parametras 'count' turi numatytą reikšmę (5) ir kviečiamas naudojant
-        // vardinį argumentą, pvz. GetLastEvents(app, count: 3).
         public ApplicationEvent[] GetLastEvents(Application app, int count = 5) {
-            // REIKALAVIMAS: Naudojami delegatai arba lambda funkcijos (1.5 t.)
-            // LINQ metodams (OrderBy, Where ir pan.) perduodamos lambda išraiškos
-            // (pvz. a => a, e => e.Timestamp), kurios yra delegatų realizacija.
             var ordered = app.Events.OrderBy(e => e.Timestamp).ToArray();
             if(ordered.Length <= count)
             {
@@ -90,14 +91,12 @@ namespace ApplicationManager.Core.Services
             }
             return ordered[^count..];
         }
-        // REIKALAIVMAS: Naudojamas raktažodis 'params' (0.5 t.)
-        // Leidžia perduoti kelis Application parametrus vienu iškvietimu,
-        // pvz. manager.AddApplication(app1, app2).
         public void AddApplication(params Application[] applications)
         {
             foreach (var app in applications)
             {
                 _repo.Add(app);
+                OnApplicationChanged("Added", app);
             }
         }
         public bool TryParseMonthlyWage(string? input, out int? wage)
@@ -115,12 +114,6 @@ namespace ApplicationManager.Core.Services
             wage = null;
             return false;
         }
-        // REIKALAVIMAS: Naudojamas operatorius 'is' (0.5 t.)
-        // 'obj is Application app' panaudota tipui patikrinti ir iš karto išskleisti
-        // kintamąjį 'app' tolimesniam naudojimui.
-        // REQUIREMENT: Naudojamas šablonų atitikimas(1 t.)
-        // 'obj is Application app' naudoja pattern matching, kad patikrintų tipą
-        // ir iš karto sukurtų kintamąjį 'app' tolimesniam naudojimui.
         public string DescribeObject(object? obj)
         {
             if(obj is Application app)
@@ -136,7 +129,23 @@ namespace ApplicationManager.Core.Services
                 throw new ArgumentNullException(nameof(application));
 
             _repo.Update(application);
+            OnApplicationChanged("Updated", application);
         }
+
+        public void RemoveApplication(int id)
+        {
+            if (!_repo.Remove(id))
+            {
+                throw new ApplicationRepositoryException($"Aplikacija su id={id} nerasta.");
+            }
+            OnApplicationChanged("Removed", new Application { Id = id, CompanyName = string.Empty, PositionName = string.Empty });
+        }
+
+        private void OnApplicationChanged(string action, Application app)
+        {
+            ApplicationChanged?.Invoke(this, new ApplicationChangedEventArgs(action, app));
+        }
+
         public void MarkUrgentIfStale(Application app)
         {
             var today = DateTime.UtcNow.Date;
